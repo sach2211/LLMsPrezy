@@ -27,12 +27,14 @@
         }
 
         .reveal .slides section .title-large {
-            font-size: 3.5em;
+            font-size: 4vw;
             text-transform: uppercase;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 0.2vw;
             color: #4dc2f5; /* A vibrant blue accent */
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            text-shadow: 0.2vw 0.2vw 0.5vw rgba(0,0,0,0.5);
+            line-height: 1.1;
+            margin: 0.2em 0;
         }
 
         .reveal .slides section p {
@@ -48,16 +50,16 @@
         }
 
         .reveal pre {
-            border: 1px solid #4dc2f5;
-            box-shadow: 0 0 10px rgba(77, 194, 245, 0.5);
-            padding: 15px;
-            border-radius: 8px;
+            border: 0.1vw solid #4dc2f5;
+            box-shadow: 0 0 1vw rgba(77, 194, 245, 0.5);
+            padding: 1.5vw;
+            border-radius: 0.8vw;
         }
         
         .reveal code {
             font-size: 0.9em;
             background-color: #1a1a1a;
-            border-radius: 5px;
+            border-radius: 0.5vw;
         }
 
         .reveal .progress span {
@@ -72,12 +74,15 @@
             width: 100%;
             margin: 20px 0;
             border-collapse: collapse;
+            font-size: 0.72em;
         }
 
         .comparison-table th, .comparison-table td {
-            border: 1px solid #444;
-            padding: 15px;
+            border: 0.1vw solid #444;
+            padding: 0.6vw 1vw;
             text-align: left;
+            white-space: nowrap;
+            vertical-align: top;
         }
 
         .comparison-table th {
@@ -103,27 +108,65 @@
         <div class="slides">
             <!-- Opening Hook (2 minutes) -->
             <section data-transition="zoom">
-                <h1 class="title-large">From Counting Words to Understanding Meaning</h1>
-                <h3>The Evolution to Large Language Models</h3>
-                <p class="fragment fade-in-then-out">An AI/ML Conference Presentation</p>
+                <!-- Brain image in top right corner -->
+                <div style="position: absolute; top: 2vh; right: 2vw; z-index: 10;">
+                    <img src="./llm_brain_title.jpg" alt="LLM Brain Visualization" style="width: 15vw; height: auto; border-radius: 1vw; box-shadow: 0 0 1.5vw rgba(77, 194, 245, 0.3); border: 0.1vw solid #4dc2f5; opacity: 0.8;">
+                </div>
+                
+                <h2 class="title-large">The Road  &nbsp;</h2>
+                <h2 class="title-large">to LLMs</h2>
+                <h3>From a Single Neuron to a Global Brain</h3>
+                <p class="fragment fade-in-then-out">Singapore Technology Week 2025</p>
+                
                 <aside class="notes">
-                    Hello everyone, I'm thrilled to be here. Today, we're going to explore one of the most incredible transformations in recent memory.
+                    Hello everyone, I'm thrilled to be here. Today, we're going to explore one of the most incredible transformations in recent memory - the evolution from simple neurons to complex language models.
                 </aside>
             </section>
-
+            <section data-transition="slide">
+                <p class="hook-text">About Me</p>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 4vw;">
+                    <div style="flex: 1; text-align: center;">
+                        <img src="./SachinProfile.jpg" alt="Sachin Chopra" style="width: 12vw; height: 12vw; border-radius: 50%; object-fit: cover; border: 0.3vw solid #4dc2f5; box-shadow: 0 0 2vw rgba(77, 194, 245, 0.3);">
+                    </div>
+                    <div style="flex: 2;">
+                        <ul style="text-align: left;">
+                            <li>Sachin Chopra</li>
+                            <li>Lead Full Stack Engineer at Grab</li>
+                            <li>Passionate about the evolution of AI and language models</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section data-transition="slide">
+                <p class="hook-text">About the Talk</p>
+                <ul>
+                    <li>I'll be talking about the evolution of language models from N-grams to LLMs</li>
+                    <li>I'll be talking about the history of language models</li>
+                    <li>I'll be talking about the current state of language models</li>
+                </ul>
+            </section>
             <section data-transition="slide">
                 <h2 class="hook-text">How did we go from a simple autocomplete...</h2>
-                <div class="fragment fade-in" style="width: 50%; margin: 0 auto;">
+                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
                     <pre><code class="plaintext">The cat sat on the ___
 -> mat
 -> rug
 -> sofa</code></pre>
                 </div>
-                <h2 class="fragment fade-in hook-text">...to machines that seem to understand context, meaning, and even reasoning?</h2>
-                <div class="fragment fade-in" style="width: 80%; margin: 0 auto;">
-                    <pre><code class="plaintext">"The bank can guarantee deposits will eventually cover future tuition costs, but only after you've paid off your river canoe."
--> A nuanced, contextual response.</code></pre>
+                <p class="fragment fade-in" style="font-size: 1.2em; color: #aaa; margin-top: 3vh;">Simple pattern matching based on frequency</p>
+            </section>
+            
+            <section data-transition="slide">
+                <h2 class="hook-text">...to machines that seem to understand context, meaning, and even reasoning?</h2>
+                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
+                    <pre><code class="plaintext">"The bank can guarantee deposits will eventually cover 
+future tuition costs, but only after you've paid off 
+your river canoe."
+
+-> A nuanced, contextual response that understands 
+   multiple meanings of 'bank'</code></pre>
                 </div>
+                <p class="fragment fade-in" style="font-size: 1.2em; color: #4dc2f5; margin-top: 3vh;">Complex reasoning across long contexts</p>
             </section>
 
             <!-- I. The Foundation Era: Statistical NLP (5 minutes) -->
@@ -134,7 +177,8 @@
 
             <section data-transition="slide">
                 <h3>N-gram Models: The Counting Approach</h3>
-                <p class="fragment fade-in">Core principle: $P(\text{word } | \text{ previous } n-1 \text{ words})$ based on frequency counting.</p>
+                <p class="fragment fade-in">Core principle based on frequency counting:</p>
+                <pre class="fragment fade-in"><code class="latex">P(word | previous n-1 words)</code></pre>
                 <pre class="fragment fade-in"><code class="python"># Simple N-gram counting
 data = ["the cat sat on the mat", "the dog sat on the rug"]
 counts = {}
@@ -150,7 +194,7 @@ print(counts)
 
             <section data-transition="slide">
                 <h3>N-gram Strengths & Fatal Flaws</h3>
-                <ul style="width: 80%; margin: 0 auto;">
+                <ul style="width: 100%; margin: 0 auto;">
                     <li class="fragment fade-in"><strong>Strengths:</strong> Simple, interpretable, computationally efficient.</li>
                     <li class="fragment fade-in"><strong>Limitations:</strong>
                         <ul class="fragment fade-in">
@@ -164,11 +208,23 @@ print(counts)
 
             <section data-transition="slide">
                 <h3>A Live Demo of N-gram Failure</h3>
-                <p class="fragment fade-in">The sentence: "The bank can guarantee deposits will eventually cover future tuition costs, but only after you've paid off your river canoe."</p>
-                <div class="fragment fade-in">
-                    <p>N-gram model processing: "paid off your river..."</p>
-                    <p class="fragment highlight-red">...<span style="font-size: 1.5em; font-weight: bold;">"bank"?</span> No, the model has already forgotten the context!</p>
+                
+                <p class="fragment fade-in">Input sentence:</p>
+                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
+                    <pre><code class="plaintext">"The bank can guarantee deposits will eventually cover 
+future tuition costs, but only after you've paid off 
+your river canoe."</code></pre>
                 </div>
+                
+                <p class="fragment fade-in" style="margin-top: 3vh;">N-gram model processing:</p>
+                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
+                    <pre><code class="plaintext">Processing: "paid off your river..."
+Next word prediction: ???</code></pre>
+                </div>
+                
+                <p class="fragment fade-in" style="font-size: 1.3em; color: #ff6b6b; margin-top: 3vh; font-weight: bold;">
+                    ❌ The model has already forgotten "bank" from the beginning!
+                </p>
             </section>
 
             <!-- II. The Neural Revolution: Learning Representations (8 minutes) -->
@@ -205,7 +261,7 @@ vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre
 
             <section data-transition="slide">
                 <h3>RNN Limitations</h3>
-                <ul style="width: 80%; margin: 0 auto;">
+                <ul style="width: 100%; margin: 0 auto;">
                     <li class="fragment fade-in"><strong>Sequential bottleneck:</strong> Must process left-to-right. No parallelization.</li>
                     <li class="fragment fade-in"><strong>Information decay:</strong> Earlier context gets "forgotten" in long sequences.</li>
                     <li class="fragment fade-in"><strong>Vanishing gradients:</strong> Difficulty learning long-range dependencies.</li>
@@ -228,7 +284,7 @@ vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre
             
             <section data-transition="slide">
                 <h3>The Paradigm Shift (2017)</h3>
-                <ul style="width: 80%; margin: 0 auto;">
+                <ul style="width: 100%; margin: 0 auto;">
                     <li class="fragment fade-in"><strong>Self-attention replaces recurrence.</strong> No more sequential processing.</li>
                     <li class="fragment fade-in"><strong>Parallel processing:</strong> All positions computed simultaneously.</li>
                     <li class="fragment fade-in"><strong>No fixed context window:</strong> Attention to the entire sequence.</li>
@@ -238,7 +294,7 @@ vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre
             <section data-transition="slide">
                 <h3>Self-Attention: The Query-Key-Value Framework</h3>
                 <p class="fragment fade-in">For each word position $i$:</p>
-                <ul style="width: 80%; margin: 0 auto;">
+                <ul style="width: 100%; margin: 0 auto;">
                     <li class="fragment fade-in"><strong>Query (Q):</strong> "What am I looking for?"</li>
                     <li class="fragment fade-in"><strong>Key (K):</strong> "What do I represent?"</li>
                     <li class="fragment fade-in"><strong>Value (V):</strong> "What information do I carry?"</li>
@@ -248,7 +304,7 @@ vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre
 
             <section data-transition="slide">
                 <h3>Why This Works</h3>
-                <ul style="width: 80%; margin: 0 auto;">
+                <ul style="width: 100%; margin: 0 auto;">
                     <li class="fragment fade-in"><strong>Dynamic context:</strong> Each word's representation depends on the entire sequence.</li>
                     <li class="fragment fade-in"><strong>Relationship modeling:</strong> Direct connections between any two positions.</li>
                     <li class="fragment fade-in"><strong>Scalable learning:</strong> Attention weights are learned, not hand-crafted.</li>
@@ -315,22 +371,25 @@ vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre
             </section>
 
             <section data-transition="slide">
-                <h3>Controlling Creativity: Temperature & Top-p</h3>
-                <div style="display: flex; gap: 40px; text-align: left; width: 90%; margin: 0 auto;">
-                    <div style="flex: 1;" class="fragment fade-in">
+                <h3>Controlling Creativity</h3>
+                <div style="display: flex; gap: 3vw; width: 100%; margin: 0 auto; flex-direction: row; align-items: flex-start;font-size: 36px;">
+                    <div style="width: 50%; word-wrap: break-word; overflow-wrap: break-word;" class="fragment fade-in">
                         <h4>Temperature (τ)</h4>
                         <p>Controls randomness in the probability distribution.</p>
                         <ul>
                             <li><strong>Low (e.g., 0.1):</strong> Focused, deterministic, "safe."</li>
                             <li><strong>High (e.g., 1.2):</strong> Creative, diverse, sometimes surprising.</li>
                         </ul>
-                        <pre style="margin-top: 10px;"><code class="latex">p_i = \exp(logit_i/\tau) / \Sigma\exp(logit_j/\tau)</code></pre>
+                        <pre style="margin-top: 1vh;"><code class="latex">p_i = \exp(logit_i/\tau) / \Sigma\exp(logit_j/\tau)</code></pre>
                     </div>
-                    <div style="flex: 1;" class="fragment fade-in">
+                    <div style="width: 50%; word-wrap: break-word; overflow-wrap: break-word;" class="fragment fade-in">
                         <h4>Top-p (Nucleus Sampling)</h4>
                         <p>Dynamic vocabulary pruning.</p>
-                        <p><strong>Concept:</strong> Pick from the smallest set of words whose cumulative probability $\ge p$.</p>
-                        <p><strong>Advantage:</strong> Adapts to context—narrow when confident, broader when uncertain.</p>
+                        <ul>
+                            <li><strong>Concept:</strong> Pick from the smallest set of words whose cumulative probability ≥ p.</li>
+                            <li><strong>Advantage:</strong> Adapts to context—narrow when confident, broader when uncertain.</li>
+                        </ul>
+                        <pre style="margin-top: 1vh;"><code class="plaintext">Example: p=0.9 → top 90% probability mass</code></pre>
                     </div>
                 </div>
             </section>
@@ -354,7 +413,7 @@ vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre
             <!-- Closing: The Bigger Picture (2 minutes) -->
             <section>
                 <h3>Final Thoughts</h3>
-                <ul style="width: 80%; margin: 0 auto; text-align: left;">
+                <ul style="width: 80vw; margin: 0 auto; text-align: left;">
                     <li class="fragment fade-in"><strong>Attention changed everything:</strong> From sequential to parallel, local to global.</li>
                     <li class="fragment fade-in"><strong>Scale unlocks emergence:</strong> Quantitative changes lead to qualitative leaps.</li>
                     <li class="fragment fade-in"><strong>We're still early:</strong> Current LLMs are just the beginning.</li>

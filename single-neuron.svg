@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="40" cy="40" r="25" fill="#4dc2f5" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="40" cy="40" r="8" fill="#ffffff"/>
+    <text x="40" y="65" text-anchor="middle" fill="#ffffff" font-size="10">Single Neuron</text>
+</svg>
