@@ -13,7 +13,7 @@
     <!-- FIX: Added the Reveal.js highlight plugin script -->
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/highlight/highlight.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Kalam:wght@400&display=swap');
         body {
             font-family: 'Inter', sans-serif;
         }
@@ -100,6 +100,105 @@
             font-size: 0.8em;
             color: #aaa;
             margin-bottom: 5px;
+        }
+
+        /* Word2Vec Vector Visualization Styles */
+        .viz-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 3vh;
+            scale: 1.2;
+        }
+
+        .vector-label {
+            font-family: 'Kalam', cursive;
+            font-size: 2em;
+        }
+
+        .vector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Kalam', cursive;
+            font-size: 1.8em;
+        }
+
+        .vector-dim {
+            padding: 5px 15px;
+            margin: 2px 0;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .vector-dim.highlight {
+            border-color: #EF4444;
+        }
+
+        .ellipsis {
+            letter-spacing: 5px;
+            padding: 10px 0;
+        }
+
+        .bracket {
+            font-size: 8em;
+            font-weight: 100;
+            color: #9CA3AF;
+        }
+
+        .annotation {
+            position: absolute;
+            font-family: 'Kalam', cursive;
+            font-size: 1.5em;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease-in-out;
+            color: #9CA3AF;
+        }
+
+        .annotation.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        #anno-authority {
+            top: 65px;
+            left: 65%;
+        }
+
+        #anno-power {
+            bottom: 15%;
+            left: 65%;
+        }
+        
+        .annotation svg {
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            width: 100px;
+            height: 50px;
+            transform: translateY(-50%);
+            overflow: visible;
+        }
+
+        #anno-power svg {
+            width: 150px;
+        }
+
+        .annotation path {
+            stroke: #9CA3AF;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+            transition: stroke-dashoffset 0.8s ease-in-out;
+        }
+
+        .annotation.visible path {
+            stroke-dashoffset: 0;
         }
     </style>
 </head>
@@ -235,19 +334,81 @@ Next word prediction: ???</code></pre>
 
             <section data-transition="slide">
                 <h3>Word Embeddings: The Semantic Breakthrough</h3>
-                <p class="fragment fade-in">Word2Vec revolution (2013): Words as vectors in semantic space.  </p>
-                <p class="fragment fade-in"><strong>Key insight:</strong> Words with similar meanings have similar vector positions.</p>
-                <pre class="fragment fade-in"><code class="python"># Live demo: Word2Vec algebra
-# A simple example of vector relationships
-vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre>
+                <ul>
+                    <li class="fragment fade-in"><p>Words as vectors in semantic space.  </p></li>
+                    <li class="fragment fade-in"><p>Each word becomes a dense vector of real numbers</p></li>
+                    <li class="fragment fade-in"><p><strong>Key insight:</strong> Words with similar meanings have similar vector positions.</p></li>
+                </ul>
             </section>
 
             <section data-transition="slide">
+                <h3>What Does an N-Dimensional Vector Look Like?</h3>
+                
+                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
+                    <pre><code class="python"># Example: 300-dimensional word vector for "queen"
+queen_vector = [
+    0.2341,  -0.1829,   0.4521,  -0.7234,   0.1892,  # dims 1-5
+   -0.3456,   0.6789,  -0.2134,   0.8901,  -0.4567,  # dims 6-10
+    0.1234,  -0.5678,   0.9012,  -0.3456,   0.7890,  # dims 11-15
+    ...                                              # ...
+   -0.2109,   0.5432,  -0.8765,   0.1098,  -0.6543   # dims 296-300
+]
+</code></pre>
+                </div>
+
+            </section>
+
+            <!-- Interactive Vector Visualization -->
+            <section data-transition="slide">
+                <h3>Visualizing the "Queen" Vector</h3> <br/><br/>
+                <div style="font-size: .5em;" class="viz-container" >
+                    <!-- Vector Label -->
+                    <div class="vector-label">queen =</div>
+
+                    <!-- Vector Bracket (Left) -->
+                    <div class="bracket">[</div>
+
+                    <!-- The Vector Dimensions -->
+                    <div class="vector">
+                        <div class="vector-dim" data-id="dim-1">0.1</div>
+                        <div class="vector-dim" data-id="dim-2">0.8</div>
+                        <div class="vector-dim" data-id="dim-3">0.3</div>
+                        <div class="ellipsis">. . .</div>
+                        <div class="vector-dim" data-id="dim-4">0.5</div>
+                        <div class="vector-dim" data-id="dim-5">0.4</div>
+                    </div>
+
+                    <!-- Vector Bracket (Right) -->
+                    <div class="bracket">]</div>
+                    
+                    <!-- Annotations (initially hidden) -->
+                    <div class="annotation" id="anno-authority">
+                        royalty
+                    </div>
+                    <div class="annotation" id="anno-power">
+                        woman
+                    </div>
+                </div>
+
+                <!-- These are invisible fragments that trigger the animations -->
+                <div class="fragment" data-fragment-index="1" data-target-dim="dim-2" data-target-anno="anno-authority"></div>
+                <div class="fragment" data-fragment-index="2" data-target-dim="dim-4" data-target-anno="anno-power"></div>
+            </section>
+             
+             <section data-transition="slide">
+                 <h3> Word2Vec Relationships</h3>    
+             <img src="./word_vec_queen.webp" alt="Word2Vec Queen" style="width: 40%; height: auto;">
+             <pre class="fragment fade-in"><code class="python">vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre>            
+             </section>
+            
+            <section data-transition="slide">
                 <h3>The Context Problem</h3>
                 <p class="fragment fade-in"><strong>Word2Vec limitation:</strong> Each word has ONE fixed vector.</p>
-                <p class="fragment fade-in" style="font-size: 1.2em;">"The <strong>bank</strong> is next to the river."</p>
-                <p class="fragment fade-in" style="font-size: 1.2em;">"I need to go to the <strong>bank</strong> to deposit a check."</p>
-                <p class="fragment fade-in" style="font-size: 1.2em;">The word "bank" has the same vector in both sentences. This is a problem.</p>
+                <ul>
+                    <li class="fragment fade-in"><p>"The <span style="color: #ff6b6b; font-weight: bold;">bank</span> is next to the river."</p></li>
+                    <li class="fragment fade-in"><p>"I need to go to the <span style="color: #ff6b6b; font-weight: bold;">bank</span> to deposit a check."</p></li>
+                </ul>
+                <p class="fragment fade-in">The word "bank" has the same vector in both sentences ! </p>
                 <h4 class="fragment fade-in">The realization: Meaning depends on context.</h4>
             </section>
             
@@ -267,13 +428,6 @@ vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre
                     <li class="fragment fade-in"><strong>Vanishing gradients:</strong> Difficulty learning long-range dependencies.</li>
                 </ul>
                 <h4 class="fragment fade-in">The question: "Can we capture context without sequential processing?"</h4>
-            </section>
-
-            <section data-transition="fade">
-                <h3>The Attention Mechanism Preview (2014)</h3>
-                <p class="fragment fade-in">Bahdanau attention in machine translation.</p>
-                <p class="fragment fade-in"><strong>Key insight:</strong> Instead of compressing everything into a hidden state, <span style="font-weight: bold; color: #4dc2f5;">look directly at relevant past words</span>.</p>
-                <p class="fragment fade-in">This was a foreshadowing of the main event...</p>
             </section>
             
             <!-- III. The Transformer Revolution: Attention Is All You Need (10 minutes) -->
@@ -450,6 +604,36 @@ vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre
             plugins: [ RevealHighlight ],
             // Add a progress bar to the bottom
             progress: true,
+        });
+
+        // Word2Vec Vector Visualization Handlers
+        function handleFragment(event, action) {
+            const fragment = event.fragment;
+            const dimId = fragment.dataset.targetDim;
+            const annoId = fragment.dataset.targetAnno;
+            
+            if (dimId && annoId) {
+                const dimElement = document.querySelector(`.vector-dim[data-id="${dimId}"]`);
+                const annoElement = document.getElementById(annoId);
+
+                if(dimElement && annoElement){
+                    if(action === 'add'){
+                        dimElement.classList.add('highlight');
+                        annoElement.classList.add('visible');
+                    } else {
+                        dimElement.classList.remove('highlight');
+                        annoElement.classList.remove('visible');
+                    }
+                }
+            }
+        }
+
+        Reveal.on('fragmentshown', event => {
+           handleFragment(event, 'add');
+        });
+
+        Reveal.on('fragmenthidden', event => {
+           handleFragment(event, 'remove');
         });
     </script>
 </body>
