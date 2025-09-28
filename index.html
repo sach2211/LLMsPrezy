@@ -244,28 +244,22 @@
                     <li>I'll be talking about the current state of language models</li>
                 </ul>
             </section>
+
+            <section data-transition="slide">
+                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
+                    <pre><code class="plaintext">"I flew from London to Singapore last week. 
+I'm really enjoying my stay in ______."
+</code></pre>
+                </div>
+            </section>            
             <section data-transition="slide">
                 <h2 class="hook-text">How did we go from a simple autocomplete...</h2>
-                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
-                    <pre><code class="plaintext">The cat sat on the ___
--> mat
--> rug
--> sofa</code></pre>
-                </div>
-                <p class="fragment fade-in" style="font-size: 1.2em; color: #aaa; margin-top: 3vh;">Simple pattern matching based on frequency</p>
+                <img src="./bad_autocomplete.jpg" alt="Bad autocomplete" style="width: 70%; height: auto;">
             </section>
             
             <section data-transition="slide">
                 <h2 class="hook-text">...to machines that seem to understand context, meaning, and even reasoning?</h2>
-                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
-                    <pre><code class="plaintext">"The bank can guarantee deposits will eventually cover 
-future tuition costs, but only after you've paid off 
-your river canoe."
-
--> A nuanced, contextual response that understands 
-   multiple meanings of 'bank'</code></pre>
-                </div>
-                <p class="fragment fade-in" style="font-size: 1.2em; color: #4dc2f5; margin-top: 3vh;">Complex reasoning across long contexts</p>
+                <img src="./gpt_completion.png" alt="ChatGPT Completion" style="width: 100%; height: auto;">
             </section>
 
             <!-- I. The Foundation Era: Statistical NLP (5 minutes) -->
@@ -280,15 +274,7 @@ your river canoe."
                 <pre class="fragment fade-in"><code class="latex">P(word | previous n-1 words)</code></pre>
                 <pre class="fragment fade-in"><code class="python"># Simple N-gram counting
 data = ["the cat sat on the mat", "the dog sat on the rug"]
-counts = {}
-for sentence in data:
-    words = sentence.split()
-    for i in range(len(words) - 1):
-        bigram = (words[i], words[i+1])
-        counts[bigram] = counts.get(bigram, 0) + 1
-
-print(counts)
-# Output: {('the', 'cat'): 1, ('cat', 'sat'): 1, ...}</code></pre>
+# Probabilities: {('the', 'cat'): 1, ('cat', 'sat'): 1, ...}</code></pre>
             </section>
 
             <section data-transition="slide">
@@ -310,20 +296,13 @@ print(counts)
                 
                 <p class="fragment fade-in">Input sentence:</p>
                 <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
-                    <pre><code class="plaintext">"The bank can guarantee deposits will eventually cover 
-future tuition costs, but only after you've paid off 
-your river canoe."</code></pre>
+                    <pre><code class="plaintext">"I flew from London to Singapore last week. 
+I'm really enjoying my stay in ______."
+
+-> Paris
+-> London
+-> New York</code></pre>
                 </div>
-                
-                <p class="fragment fade-in" style="margin-top: 3vh;">N-gram model processing:</p>
-                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
-                    <pre><code class="plaintext">Processing: "paid off your river..."
-Next word prediction: ???</code></pre>
-                </div>
-                
-                <p class="fragment fade-in" style="font-size: 1.3em; color: #ff6b6b; margin-top: 3vh; font-weight: bold;">
-                    ❌ The model has already forgotten "bank" from the beginning!
-                </p>
             </section>
 
             <!-- II. The Neural Revolution: Learning Representations (8 minutes) -->
@@ -411,7 +390,61 @@ queen_vector = [
                 <p class="fragment fade-in">The word "bank" has the same vector in both sentences ! </p>
                 <h4 class="fragment fade-in">The realization: Meaning depends on context.</h4>
             </section>
-            
+
+            <section data-transition="slide">
+                <h3>RNN: What if calculate context vector for each word?</h3>
+            </section>
+            <section data-transition="slide">
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 2vw;">
+                <div class="fragment fade-in" style="width: 45%; margin: 0 auto;">
+                    <pre><code class="python">
+h₁ = RNN(x₁, h₀)    → “I”  
+h₂ = RNN(x₂, h₁)    → “flew”  
+h₃ = RNN(x₃, h₂)    → “from”  
+...
+h₁₅ = RNN(x₁₅, h₁₄) → “here”                
+                    </code></pre>
+                </div>
+                <div>
+                <p class="fragment fade-in" style="text-align: left;">At each time step t, the RNN receives:
+                    <ul class="fragment fade-in">
+                        <li>The current word vector xₜ</li>
+                        <li>The hidden state from the previous step hₜ₋₁</li>
+                    </ul><br/>
+                </p>
+                <p class="fragment fade-in" style="text-align: left;">And it outputs:
+                    <ul class="fragment fade-in">
+                        <li>A new hidden state hₜ that captures all context up to and including this word.</li>
+                    </ul>
+                </p>
+                </div>
+            </div>
+            </section>
+
+            <section data-transition="slide">
+                <pre><code class="python">
+Word:       I → flew → from → London → ... → here
+Embedding:  v1   v2     v3     v4     ...    v15
+Hidden:     h1   h2     h3     h4     ...    h15
+
+                </code></pre>
+            </section>
+
+            <section data-transition="slide">
+                <p class="fragment fade-in">
+                The model outputs a probability distribution over the vocabulary.
+                <ul class="fragment fade-in">Likely top predictions:
+                <li>✅ “Singapore” — based on prior sentence.</li>
+                <li>❌ “London” — possible if model misunderstood context.</li>
+                <li>❌ “hotel” — grammatically correct, but less likely.</li>                
+            </ul>
+            </p>
+                <pre class="fragment fade-in"><code class="python">Singapore — 84%
+London — 10%
+hotel — 3%
+... others</code></pre>
+            </section>
+
             <section data-transition="slide">
                 <h3>RNNs & LSTMs: Sequential Context Modeling</h3>
                 <p class="fragment fade-in">Core innovation: Process sentences word-by-word, building a "hidden state" or running summary of everything seen so far.</p>
