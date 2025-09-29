@@ -395,7 +395,7 @@ queen_vector = [
                 <h3>RNN: What if calculate context vector for each word?</h3>
             </section>
             <section data-transition="slide">
-                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 2vw;">
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 2%;">
                 <div class="fragment fade-in" style="width: 45%; margin: 0 auto;">
                     <pre><code class="python">
 h₁ = RNN(x₁, h₀)    → “I”  
@@ -409,12 +409,12 @@ h₁₅ = RNN(x₁₅, h₁₄) → “here”
                 <p class="fragment fade-in" style="text-align: left;">At each time step t, the RNN receives:
                     <ul class="fragment fade-in">
                         <li>The current word vector xₜ</li>
-                        <li>The hidden state from the previous step hₜ₋₁</li>
+                        <li>The hidden state from the previous step <code>hₜ₋₁</code></li>
                     </ul><br/>
                 </p>
                 <p class="fragment fade-in" style="text-align: left;">And it outputs:
                     <ul class="fragment fade-in">
-                        <li>A new hidden state hₜ that captures all context up to and including this word.</li>
+                        <li>A new hidden state <code>hₜ</code> that captures all context up to and including this word.</li>
                     </ul>
                 </p>
                 </div>
@@ -464,18 +464,38 @@ hotel — 3%
             </section>
             
             <!-- III. The Transformer Revolution: Attention Is All You Need (10 minutes) -->
-            <section>
+             <section data-transition="slide">
+                "Instead of compressing the entire input sentence into one fixed-length vector, let's allow the model to 'look back' and pay direct <strong style="color: #ff6b6b;">'attention'</strong> to the most relevant input words at each step of the output."
+            </section>
+            <section data-transition="slide">
+                <h3>The Paradigm Shift (2017)</h3>
+                <img src="./attention.png" alt="Attention" style="width: 70%; height: auto;">
+            </section>
+            <section data-transition="slide">
                 <h2>III. The Transformer Revolution</h2>
-                <h3>Attention Is All You Need</h3>
+                <h3><strong style="color: #ff6b6b;">Attention</strong> Is All You Need</h3>
+                
             </section>
             
             <section data-transition="slide">
-                <h3>The Paradigm Shift (2017)</h3>
                 <ul style="width: 100%; margin: 0 auto;">
-                    <li class="fragment fade-in"><strong>Self-attention replaces recurrence.</strong> No more sequential processing.</li>
+                    <li><strong>Self-attention replaces recurrence.</strong> No more sequential processing.</li>
                     <li class="fragment fade-in"><strong>Parallel processing:</strong> All positions computed simultaneously.</li>
                     <li class="fragment fade-in"><strong>No fixed context window:</strong> Attention to the entire sequence.</li>
                 </ul>
+            </section>
+
+            <section data-transition="slide">
+                <p><strong>If transformers process in parallel, how do they know the order of words?</strong></p>
+                <p>Transformers don’t know the order of words just from embeddings. So, we add ‘positional encodings’ — special vectors that tell the model the position of each word.</p>
+<pre><code class="python">
+| Token  | Word vector | Positional vector| Combined Vector|
+| ------ | ----------- | ---------------- | -------------- |
+| "I"    | v_I         | p_1              | v_I + p_1      |
+| "flew" | v_flew      | p_2              | v_flew + p_2   |
+| "from" | v_from      | p_3              | v_from + p_3   |
+
+</code></pre>
             </section>
 
             <section data-transition="slide">
@@ -504,7 +524,7 @@ hotel — 3%
             </section>
 
             <section data-transition="fade">
-                <h3>Side-by-Side Comparison</h3>
+                <div style="text-align: left;">Side-by-Side Comparison</div><br/>
                 <table class="comparison-table">
                     <thead>
                         <tr>
