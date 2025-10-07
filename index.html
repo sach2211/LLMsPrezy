@@ -230,7 +230,7 @@
                     <div style="flex: 2;">
                         <ul style="text-align: left;">
                             <li>Sachin Chopra</li>
-                            <li>Lead Full Stack Engineer at Grab</li>
+                            <li>Lead Fullstack Engineer @ Grab</li>
                             <li>Passionate about the evolution of AI and language models</li>
                         </ul>
                     </div>
@@ -247,7 +247,7 @@
             </section>
 
             <section data-transition="slide">
-                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
+                <div style="width: 100%; margin: 0 auto;">
                     <pre><code class="plaintext">"I flew from London to Singapore last week. 
 I'm really enjoying my stay in ______."
 </code></pre>
@@ -271,8 +271,8 @@ I'm really enjoying my stay in ______."
 
             <section data-transition="slide">
                 <h3>N-gram Models: The Counting Approach</h3>
-                <p class="fragment fade-in">Core principle based on frequency counting:</p>
-                <pre class="fragment fade-in"><code class="latex">P(word | previous n-1 words)</code></pre>
+                <p >Core principle based on frequency counting:</p>
+                <pre><code class="latex">P(word | previous n-1 words)</code></pre>
                 <pre class="fragment fade-in"><code class="python"># Simple N-gram counting
 data = ["the cat sat on the mat", "the dog sat on the rug"]
 # Probabilities: {('the', 'cat'): 1, ('cat', 'sat'): 1, ...}</code></pre>
@@ -283,7 +283,7 @@ data = ["the cat sat on the mat", "the dog sat on the rug"]
                 <ul style="width: 100%; margin: 0 auto;">
                     <li class="fragment fade-in"><strong>Strengths:</strong> Simple, interpretable, computationally efficient.</li>
                     <li class="fragment fade-in"><strong>Limitations:</strong>
-                        <ul class="fragment fade-in">
+                        <ul class="fragment">
                             <li><span class="fragment highlight-red">Fixed context window</span> (typically 3-5 words)</li>
                             <li><span class="fragment highlight-red">Data sparsity problem:</span> What about phrases never seen before?</li>
                             <li><span class="fragment highlight-red">No semantic understanding:</span> It's just a lookup table.</li>
@@ -294,9 +294,7 @@ data = ["the cat sat on the mat", "the dog sat on the rug"]
 
             <section data-transition="slide">
                 <h3>N-gram Failure</h3>
-                
-                <p class="fragment fade-in">Input sentence:</p>
-                <div class="fragment fade-in" style="width: 100%; margin: 0 auto;">
+                <div style="width: 100%; margin: 0 auto;">
                     <pre><code class="plaintext">"I flew from London to Singapore last week. 
 I'm really enjoying my stay in ______."
 
@@ -376,7 +374,7 @@ queen_vector = [
             </section>
              
              <section data-transition="slide">
-                 <h3> Word2Vec Relationships</h3>    
+                 <h3> Words had Semantic Relationships</h3>    
              <img src="./word_vec_queen.webp" alt="Word2Vec Queen" style="width: 40%; height: auto;">
              <pre class="fragment fade-in"><code class="python">vector("king") - vector("man") + vector("woman") ≈ vector("queen")</code></pre>            
              </section>
@@ -396,8 +394,13 @@ queen_vector = [
                 <h3>RNN: What if calculate context vector for each word?</h3>
             </section>
             <section data-transition="slide">
+                <h3>RNNs Sequential Context Modeling</h3>
+                <p class="fragment fade-in">Core innovation: Process sentences word-by-word, building a "hidden state" or running summary of everything seen so far.</p>
+                <p class="fragment fade-in">Breakthrough: The same word gets different representations in different contexts!</p>
+            </section>            
+            <section data-transition="slide">
                 <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 2%;">
-                <div class="fragment fade-in" style="width: 45%; margin: 0 auto;">
+                <div style="width: 45%; margin: 0 auto;">
                     <pre><code class="python">
 h₁ = RNN(x₁, h₀)    → “I”  
 h₂ = RNN(x₂, h₁)    → “flew”  
@@ -407,15 +410,15 @@ h₁₅ = RNN(x₁₅, h₁₄) → “here”
                     </code></pre>
                 </div>
                 <div>
-                <p class="fragment fade-in" style="text-align: left;">At each time step t, the RNN receives:
-                    <ul class="fragment fade-in">
+                <p style="text-align: left;">At each time step t, the RNN receives:
+                    <ul>
                         <li>The current word vector xₜ</li>
                         <li>The hidden state from the previous step <code>hₜ₋₁</code></li>
                     </ul><br/>
                 </p>
-                <p class="fragment fade-in" style="text-align: left;">And it outputs:
-                    <ul class="fragment fade-in">
-                        <li>A new hidden state <code>hₜ</code> that captures all context up to and including this word.</li>
+                <p style="text-align: left;">
+                    <ul class="fragment fade-in">And it outputs:
+                        <li>A new <span style="color: #ff6b6b;">hidden state <code>hₜ</code></span> that captures all context up to and including this word.</li>
                     </ul>
                 </p>
                 </div>
@@ -432,36 +435,25 @@ Hidden:     h1   h2     h3     h4     ...    h15
             </section>
 
             <section data-transition="slide">
-                <p class="fragment fade-in">
-                The model outputs a probability distribution over the vocabulary.
-                <ul class="fragment fade-in">Likely top predictions:
+            <p>
+                With context captured - the model starts understanding context a <i>'little'</i>
+                <pre class="fragment fade-in"><code class="python">"I flew from London to Singapore last week. 
+I'm really enjoying my stay in ______."</code></pre>                
+            <ul class="fragment fade-in">Likely top predictions:
                 <li>✅ “Singapore” — based on prior sentence.</li>
                 <li>❌ “London” — possible if model misunderstood context.</li>
                 <li>❌ “hotel” — grammatically correct, but less likely.</li>                
             </ul>
             </p>
-                <pre class="fragment fade-in"><code class="python">Singapore — 84%
-London — 10%
-hotel — 3%
-... others</code></pre>
-            </section>
-
-            <section data-transition="slide">
-                <h3>RNNs & LSTMs: Sequential Context Modeling</h3>
-                <p class="fragment fade-in">Core innovation: Process sentences word-by-word, building a "hidden state" or running summary of everything seen so far.</p>
-                <pre class="fragment fade-in"><code class="js">h_t = f(word_t, h_{t-1})</code></pre>
-                <p class="fragment fade-in">Breakthrough: The same word gets different representations in different contexts!</p>
-                <p class="fragment fade-in">But... they have limitations.</p>
             </section>
 
             <section data-transition="slide">
                 <h3>RNN Limitations</h3>
                 <ul style="width: 100%; margin: 0 auto;">
-                    <li class="fragment fade-in"><strong>Sequential bottleneck:</strong> Must process left-to-right. No parallelization.</li>
-                    <li class="fragment fade-in"><strong>Information decay:</strong> Earlier context gets "forgotten" in long sequences.</li>
-                    <li class="fragment fade-in"><strong>Vanishing gradients:</strong> Difficulty learning long-range dependencies.</li>
+                    <li ><strong class="fragment highlight-red">Sequential bottleneck:</strong> Must process left-to-right. No parallelization.</li>
+                    <li ><strong class="fragment highlight-red">Information decay:</strong> Earlier context gets "forgotten" in long sequences.</li>
                 </ul>
-                <h4 class="fragment fade-in">The question: "Can we capture context without sequential processing?"</h4>
+                <p class="fragment fade-in">Question: "Can we capture long distance context without sequential processing?"</p>
             </section>
             
             <!-- III. The Transformer Revolution: Attention Is All You Need (10 minutes) -->
@@ -474,13 +466,22 @@ hotel — 3%
             </section>
             <section data-transition="slide">
                 <h2>III. The Transformer Revolution</h2>
-                <h3><strong style="color: #ff6b6b;">Attention</strong> Is All You Need</h3>
+                <h3><strong style="color: #ff6b6b;">(Self)Attention</strong> Is All You Need</h3>
                 
             </section>
+            <section data-transition="slide">
+                <h3>Self-Attention</h3>
+                <p class="fragment fade-in"></p>
+                <ul style="width: 100%; margin: 0 auto;">For each word position i, compute:
+                    <li class="fragment fade-in"><strong>Query (Q):</strong> "What am I looking for?"</li>
+                    <li class="fragment fade-in"><strong>Key (K):</strong> "What do I represent?"</li>
+                    <li class="fragment fade-in"><strong>Value (V):</strong> "What information do I carry?"</li>
+                </ul>
+            </section>            
             
             <section data-transition="slide">
                 <ul style="width: 100%; margin: 0 auto;">
-                    <li><strong>Self-attention replaces recurrence.</strong> No more sequential processing.</li>
+                    <strong>Self-attention enables.</strong>
                     <li class="fragment fade-in"><strong>Parallel processing:</strong> All positions computed simultaneously.</li>
                     <li class="fragment fade-in"><strong>No fixed context window:</strong> Attention to the entire sequence.</li>
                 </ul>
@@ -500,17 +501,6 @@ hotel — 3%
             </section>
 
             <section data-transition="slide">
-                <h3>Self-Attention: The Query-Key-Value Framework</h3>
-                <p class="fragment fade-in">For each word position $i$:</p>
-                <ul style="width: 100%; margin: 0 auto;">
-                    <li class="fragment fade-in"><strong>Query (Q):</strong> "What am I looking for?"</li>
-                    <li class="fragment fade-in"><strong>Key (K):</strong> "What do I represent?"</li>
-                    <li class="fragment fade-in"><strong>Value (V):</strong> "What information do I carry?"</li>
-                </ul>
-                <pre class="fragment fade-in"><code class="latex">Attention(Q,K,V) = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})V</code></pre>
-            </section>
-
-            <section data-transition="slide">
                 <h3>Why This Works</h3>
                 <ul style="width: 100%; margin: 0 auto;">
                     <li class="fragment fade-in"><strong>Dynamic context:</strong> Each word's representation depends on the entire sequence.</li>
@@ -519,58 +509,10 @@ hotel — 3%
                 </ul>
             </section>
 
-            <!-- IV. LLMs vs. N-grams: The Fundamental Differences (5 minutes) -->
-            <section>
-                <h2>IV. LLMs vs. N-grams: The Fundamental Differences</h2>
-            </section>
 
-            <section data-transition="fade">
-                <div style="text-align: left;">Side-by-Side Comparison</div><br/>
-                <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Aspect</th>
-                            <th>N-grams</th>
-                            <th>LLMs</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="fragment fade-in">
-                            <td>Context</td>
-                            <td>Fixed window (3-5 words)</td>
-                            <td>Entire sequence (thousands of tokens)</td>
-                        </tr>
-                        <tr class="fragment fade-in">
-                            <td>Processing</td>
-                            <td>Statistical counting</td>
-                            <td>Neural pattern recognition</td>
-                        </tr>
-                        <tr class="fragment fade-in">
-                            <td>Representation</td>
-                            <td>Discrete word IDs</td>
-                            <td>Dense vector embeddings</td>
-                        </tr>
-                        <tr class="fragment fade-in">
-                            <td>Relationships</td>
-                            <td>Adjacent words only</td>
-                            <td>Any-to-any attention</td>
-                        </tr>
-                        <tr class="fragment fade-in">
-                            <td>Learning</td>
-                            <td>Frequency statistics</td>
-                            <td>Gradient-based optimization</td>
-                        </tr>
-                        <tr class="fragment fade-in">
-                            <td>Generalization</td>
-                            <td>Interpolation only</td>
-                            <td>Emergent reasoning</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
+<!-- 
             <section data-transition="slide">
-                <h3>From Prediction to Generation: The Sampling Revolution</h3>
+                <h3>Controlling Creativity</h3>
                 <p class="fragment fade-in">Models don't always pick the single most likely next word—they can sample from a distribution of possible words.</p>
                 <p class="fragment fade-in">This gives us <strong>controllable creativity</strong>.</p>
                 <aside class="notes">
@@ -579,7 +521,6 @@ hotel — 3%
             </section>
 
             <section data-transition="slide">
-                <h3>Controlling Creativity</h3>
                 <div style="display: flex; gap: 3vw; width: 100%; margin: 0 auto; flex-direction: row; align-items: flex-start;font-size: 36px;">
                     <div style="width: 50%; word-wrap: break-word; overflow-wrap: break-word;" class="fragment fade-in">
                         <h4>Temperature (τ)</h4>
@@ -600,7 +541,29 @@ hotel — 3%
                         <pre style="margin-top: 1vh;"><code class="plaintext">Example: p=0.9 → top 90% probability mass</code></pre>
                     </div>
                 </div>
-            </section>
+            </section> -->
+            <section data-transition="slide">
+                <h3>Key Question</h3>
+                <p style="font-size: 1.2em; font-weight: bold;">
+                  Can we simplify the Transformer architecture to generate text efficiently by focusing only on the generation task?
+                </p>
+              </section>
+            <section data-transition="slide">
+                <h3>Transformer Architecture Challenge for Text Generation</h3>
+                <ul>
+                  <li>The original Transformer uses an <strong>encoder-decoder</strong> architecture designed for sequence-to-sequence tasks like translation.</li>
+                  <li>Encoder processes the input fully, then decoder generates output tokens—this adds complexity and latency.</li>
+                  <li>For pure text generation, this two-part design is less efficient and harder to scale.</li>
+                </ul>
+              </section>
+              <section data-transition="slide">
+                <h3>GPT’s Decoder-Only Approach</h3>
+                <ul>
+                  <li>GPT uses only the <strong>transformer decoder</strong> stack in an autoregressive manner.</li>
+                  <li>Self-attention is masked to prevent “seeing” future tokens, enabling efficient left-to-right text generation.</li>
+                  <li>This simplification reduces complexity, allowing models to scale massively and focus purely on text generation.</li>
+                </ul>
+              </section>              
 
             <!-- V. The Scaling Revolution & Modern Capabilities (2 minutes) -->
             <section>
@@ -609,35 +572,66 @@ hotel — 3%
 
             <section data-transition="slide">
                 <h3>The Scaling Laws Discovery</h3>
-                <p class="fragment fade-in">More parameters + more data + more compute = better capabilities.</p>
-                <p class="fragment fade-in">This led to <strong>Emergent Abilities</strong>—capabilities that appear suddenly at scale.  </p>
-                <ul class="fragment fade-in">
+                <p style="text-align: left;" class="fragment fade-in">More parameters + more data + more compute = better capabilities.</p>
+                <p style="text-align: left;" class="fragment fade-in">This led to <strong>Emergent Abilities</strong>—capabilities that appear suddenly at scale.
+                <ul style="text-align: left;" class="fragment fade-in">
                     <li>In-context learning</li>
                     <li>Chain-of-thought reasoning</li>
                     <li>Code generation</li>
                 </ul>
+            </p>
             </section>
+            <section data-transition="slide">
+                <h3>Model Scale Over Time</h3>
+                <table style="width:100%; font-size: 90%; border-collapse: collapse;">
+                  <thead>
+                    <tr>
+                      <th style="text-align: left; padding: 10px;">Model</th>
+                      <th style="text-align: left; padding: 10px;">Parameters</th>
+                      <th style="text-align: left; padding: 10px;">Year</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="padding: 10px;"><strong>GPT-1</strong></td>
+                      <td style="padding: 10px; color: #4dc2f5;">117 million</td>
+                      <td style="padding: 10px;">2018</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 10px;"><strong>GPT-2</strong></td>
+                      <td style="padding: 10px;">1.5 billion</td>
+                      <td style="padding: 10px;">2019</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 10px;"><strong>GPT-3</strong></td>
+                      <td style="padding: 10px;" class="fragment highlight-red">175 billion</td>
+                      <td style="padding: 10px;">2020</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>            
 
             <!-- Closing: The Bigger Picture (2 minutes) -->
-            <section>
-                <h3>Final Thoughts</h3>
-                <ul style="width: 80vw; margin: 0 auto; text-align: left;">
-                    <li class="fragment fade-in"><strong>Attention changed everything:</strong> From sequential to parallel, local to global.</li>
-                    <li class="fragment fade-in"><strong>Scale unlocks emergence:</strong> Quantitative changes lead to qualitative leaps.</li>
-                    <li class="fragment fade-in"><strong>We're still early:</strong> Current LLMs are just the beginning.</li>
+            <section data-transition="slide">
+                <h3>Final Takeaways</h3>
+                <ul>
+                    <li><strong class="fragment highlight-red">Vector Embeddings:</strong> Capture semantic meaning of words and concepts.</li>
+                    <li><strong class="fragment highlight-red">Attention Mechanisms:</strong> Enable models to focus on relevant parts of input for building contextual understanding.</li>
+                    <li><strong class="fragment highlight-red">Scale:</strong> With increased data and parameters, models can internalize and generalize the structure of human knowledge.</li>
                 </ul>
-            </section>
-
-            <section data-transition="zoom">
-                <h3>The Philosophical Shift</h3>
-                <p class="fragment fade-in" style="font-size: 1.5em; font-style: italic;">From "programming intelligence" to "growing intelligence."</p>
-                <p class="fragment fade-in" style="font-size: 1.5em; font-style: italic;">From rule-based systems to learned representations.</p>
-                <p class="fragment fade-in" style="font-size: 1.5em; font-style: italic;">"We didn't just build better autocomplete—we discovered how to make machines learn the structure of human knowledge itself, with controllable creativity."</p>
-            </section>
-            
+            </section>            
             <section>
                 <h2>Thank You</h2>
-                <p>Questions?</p>
+                <!-- QR Code Placeholder -->
+                <div style="margin: 2em auto; text-align: center;">
+                    <div;">
+                        <img src="./llm_brain_title.jpg" style="width: 30vh; min-width: 350px; max-width: 450px; height: auto;"/>
+                        <br/>
+                    </div>
+                    <p style="font-size: 0.8em; margin-top: 1em; color: #aaa;">
+                        LinkedIn QR Code
+                    </p>
+                </div>
             </section>
         </div>
     </div>
