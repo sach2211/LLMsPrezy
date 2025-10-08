@@ -230,8 +230,8 @@
                     <div style="flex: 2;">
                         <ul style="text-align: left;">
                             <li>Sachin Chopra</li>
-                            <li>Lead Fullstack Engineer @ Grab</li>
-                            <li>Passionate about the evolution of AI and language models</li>
+                            <li>As a Fullstack Engineer, I build complex systems.</li>
+                            <li>To me, LLMs are the very fascinating systems, and I'm excited to share their origin story.</li>
                         </ul>
                     </div>
                 </div>
@@ -239,10 +239,16 @@
             <section data-transition="slide">
                 <p class="hook-text">About the Talk</p>
                 I'll be talking about the evolution of language models <br/><br/>
-                <ul>
-                    <li>I'll start with the era of statistical NLP - <span style="color: #ff6b6b;">N-grams</span></li>
-                    <li>Then, I'll move to the neural revolution - <span style="color: #ff6b6b;">RNNs</span></li>
-                    <li>In the end, I'll talk about the <span style="color: #ff6b6b;">Transformer and LLMs</span></li>
+                <ul style="text-align: left;">
+                    <li><strong style="color: #ff6b6b;">The Age of Counting:</strong> We'll start with the simple but powerful idea of statistical prediction (N-grams).</li><br/>
+                    <li><strong style="color: #ff6b6b;">The Age of Meaning:</strong> We'll witness the breakthrough of giving words meaning and memory (Embeddings & RNNs).</li><br/>
+                </ul>
+            </section>
+
+            <section data-transition="slide">
+                <ul style="text-align: left;">
+                    <li><strong style="color: #ff6b6b;">The Age of Attention:</strong> We'll explore the paradigm shift that allowed models to see the whole picture at once (Transformers).</li><br/>
+                    <li><strong style="color: #ff6b6b;">The Age of Scale:</strong> Finally, we'll see how pushing these ideas to their limits created the LLMs we know today.</li>
                 </ul>
             </section>
 
@@ -281,19 +287,13 @@ data = ["the cat sat on the mat", "the dog sat on the rug"]
             <section data-transition="slide">
                 <h3>N-gram Strengths & Fatal Flaws</h3>
                 <ul style="width: 100%; margin: 0 auto;">
-                    <li class="fragment fade-in"><strong>Strengths:</strong> Simple, interpretable, computationally efficient.</li>
-                    <li class="fragment fade-in"><strong>Limitations:</strong>
-                        <ul class="fragment">
-                            <li><span class="fragment highlight-red">Fixed context window</span> (typically 3-5 words)</li>
-                            <li><span class="fragment highlight-red">Data sparsity problem:</span> What about phrases never seen before?</li>
-                            <li><span class="fragment highlight-red">No semantic understanding:</span> It's just a lookup table.</li>
-                        </ul>
-                    </li>
+                    <li class="fragment fade-in"><strong style="color: #ff6b6b;">Strengths:</strong> Simple, interpretable, computationally efficient.</li>
+                    <li class="fragment fade-in"><strong style="color: #ff6b6b;">Limitations:</strong> Statistical patterns, no semantic understanding.</li>
                 </ul>
             </section>
 
             <section data-transition="slide">
-                <h3>N-gram Failure</h3>
+                <h3>The 'Singapore' Problem</h3>
                 <div style="width: 100%; margin: 0 auto;">
                     <pre><code class="plaintext">"I flew from London to Singapore last week. 
 I'm really enjoying my stay in ______."
@@ -304,7 +304,12 @@ I'm really enjoying my stay in ______."
                 </div>
             </section>
 
-            <!-- II. The Neural Revolution: Learning Representations (8 minutes) -->
+            
+            
+            <section data-transition="slide transition-hook">
+                <p class="hook-text">What if words could have meaning, not just frequency?</p>
+            </section>
+            
             <section>
                 <h2>II. The Neural Revolution: Learning Representations</h2>
                 <p class="fragment fade-in">The shift from counting to learning.</p>
@@ -390,8 +395,39 @@ queen_vector = [
                 <h4 class="fragment fade-in">The realization: Meaning depends on context.</h4>
             </section>
 
-            <section data-transition="slide">
-                <h3>RNN: What if calculate context vector for each word?</h3>
+            <!-- <section>
+            <pre><code class="plaintext" data-trim data-noescape>
+                "I flew from London to Singapore last week. 
+                I'm really enjoying my stay in ______."
+                </code></pre>
+                <hr>
+
+                <div class="fragment fade-in" data-fragment-index="1">
+                    <p><strong>The Breakthrough 💡:</strong> It learns words exist in semantic "neighborhoods".</p>
+                    <pre><code class="python" data-trim data-noescape>
+                        - "Singapore" vector: [0.2, -0.1, 0.8, 0.3, ...]
+                        - Similar words: ["Malaysia": 0.89, "Thailand": 0.85, "Asia": 0.82]
+                        - But still predicts: ❌ "Malaysia" or "Asia"
+                        
+                        The Problem: No context awareness - "Singapore" is just a static vector
+                    </code></pre>
+                </div>
+                
+                <div class="fragment fade-in" data-fragment-index="2">
+                    <p style="margin-top: 25px;"><strong>The Flaw ❌:</strong> It has no memory of the sentence's sequence.</p>
+                    <p>The vector for "Singapore" is <strong>static</strong>. The model has no special reason to pick the word that appeared 5 words ago.
+                    </p>
+                </div>
+
+                <div class="fragment fade-in" data-fragment-index="3">
+                    <blockquote style="width: 80%; margin: 20px auto; text-align: left;">
+                       <strong>The Core Problem:</strong> One word, one vector. It can't tell the difference between a "river bank" and a "money bank."
+                    </blockquote>
+                </div>
+            </section>              -->
+
+            <section data-transition="slide transition-hook">
+                <h3 class="hook-text"> Each word has fixed meaning regardless of context. How can we calculate context vector for each word?</h3>
             </section>
             <section data-transition="slide">
                 <h3>RNNs Sequential Context Modeling</h3>
@@ -433,7 +469,10 @@ Hidden:     h1   h2     h3     h4     ...    h15
 
                 </code></pre>
             </section>
-
+            <section data-transition="slide">
+                <h3>Controlling Creativity</h3>
+                <p class="fragment fade-in">Models don't always pick the single most likely next word—they can sample from a distribution of possible words.</p>
+            </section>
             <section data-transition="slide">
             <p>
                 With context captured - the model starts understanding context a <i>'little'</i>
@@ -453,12 +492,15 @@ I'm really enjoying my stay in ______."</code></pre>
                     <li ><strong class="fragment highlight-red">Sequential bottleneck:</strong> Must process left-to-right. No parallelization.</li>
                     <li ><strong class="fragment highlight-red">Information decay:</strong> Earlier context gets "forgotten" in long sequences.</li>
                 </ul>
-                <p class="fragment fade-in">Question: "Can we capture long distance context without sequential processing?"</p>
+            </section>
+
+            <section data-transition="slide transition-hook"
+                <p class="fragment fade-in hook-text">Can we capture long distance context efficiently without sequential processing?</p>
             </section>
             
             <!-- III. The Transformer Revolution: Attention Is All You Need (10 minutes) -->
              <section data-transition="slide">
-                "Instead of compressing the entire input sentence into one fixed-length vector, let's allow the model to 'look back' and pay direct <strong style="color: #ff6b6b;">'attention'</strong> to the most relevant input words at each step of the output."
+                "Instead of relying only on the hidden state, let's allow the model to 'look back' and pay direct <strong style="color: #ff6b6b;">'attention'</strong> to the most relevant input words at each step of the output."
             </section>
             <section data-transition="slide">
                 <h3>The Paradigm Shift (2017)</h3>
@@ -471,7 +513,6 @@ I'm really enjoying my stay in ______."</code></pre>
             </section>
             <section data-transition="slide">
                 <h3>Self-Attention</h3>
-                <p class="fragment fade-in"></p>
                 <ul style="width: 100%; margin: 0 auto;">For each word position i, compute:
                     <li class="fragment fade-in"><strong>Query (Q):</strong> "What am I looking for?"</li>
                     <li class="fragment fade-in"><strong>Key (K):</strong> "What do I represent?"</li>
@@ -509,39 +550,7 @@ I'm really enjoying my stay in ______."</code></pre>
                 </ul>
             </section>
 
-
-<!-- 
-            <section data-transition="slide">
-                <h3>Controlling Creativity</h3>
-                <p class="fragment fade-in">Models don't always pick the single most likely next word—they can sample from a distribution of possible words.</p>
-                <p class="fragment fade-in">This gives us <strong>controllable creativity</strong>.</p>
-                <aside class="notes">
-                    This is a key part for the audience to understand why LLMs feel so different and powerful.
-                </aside>
-            </section>
-
-            <section data-transition="slide">
-                <div style="display: flex; gap: 3vw; width: 100%; margin: 0 auto; flex-direction: row; align-items: flex-start;font-size: 36px;">
-                    <div style="width: 50%; word-wrap: break-word; overflow-wrap: break-word;" class="fragment fade-in">
-                        <h4>Temperature (τ)</h4>
-                        <p>Controls randomness in the probability distribution.</p>
-                        <ul>
-                            <li><strong>Low (e.g., 0.1):</strong> Focused, deterministic, "safe."</li>
-                            <li><strong>High (e.g., 1.2):</strong> Creative, diverse, sometimes surprising.</li>
-                        </ul>
-                        <pre style="margin-top: 1vh;"><code class="latex">p_i = \exp(logit_i/\tau) / \Sigma\exp(logit_j/\tau)</code></pre>
-                    </div>
-                    <div style="width: 50%; word-wrap: break-word; overflow-wrap: break-word;" class="fragment fade-in">
-                        <h4>Top-p (Nucleus Sampling)</h4>
-                        <p>Dynamic vocabulary pruning.</p>
-                        <ul>
-                            <li><strong>Concept:</strong> Pick from the smallest set of words whose cumulative probability ≥ p.</li>
-                            <li><strong>Advantage:</strong> Adapts to context—narrow when confident, broader when uncertain.</li>
-                        </ul>
-                        <pre style="margin-top: 1vh;"><code class="plaintext">Example: p=0.9 → top 90% probability mass</code></pre>
-                    </div>
-                </div>
-            </section> -->
+ 
             <section data-transition="slide">
                 <h3>Key Question</h3>
                 <p style="font-size: 1.2em; font-weight: bold;">
@@ -615,9 +624,9 @@ I'm really enjoying my stay in ______."</code></pre>
             <section data-transition="slide">
                 <h3>Final Takeaways</h3>
                 <ul>
-                    <li><strong class="fragment highlight-red">Vector Embeddings:</strong> Capture semantic meaning of words and concepts.</li>
-                    <li><strong class="fragment highlight-red">Attention Mechanisms:</strong> Enable models to focus on relevant parts of input for building contextual understanding.</li>
-                    <li><strong class="fragment highlight-red">Scale:</strong> With increased data and parameters, models can internalize and generalize the structure of human knowledge.</li>
+                    <li><strong class="fragment highlight-red">Vector Embeddings:</strong> Capture semantic meaning of words and concepts.<br/></li><br/>
+                    <li><strong class="fragment highlight-red">Attention Mechanisms:</strong> Enable models to focus on relevant parts of input for building contextual understanding.<br/></li><br/>
+                    <li><strong class="fragment highlight-red">Scale:</strong> With increased data and parameters, models started to generalize the structure of human knowledge - to become a <strong> "global brain" </strong> that can reason, code, and create.</strong></p>
                 </ul>
             </section>            
             <section>
