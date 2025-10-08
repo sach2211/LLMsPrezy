@@ -427,7 +427,7 @@ queen_vector = [
             </section>              -->
 
             <section data-transition="slide transition-hook">
-                <h3 class="hook-text"> Each word has fixed meaning regardless of context. How can we calculate context vector for each word?</h3>
+                <h3 class="hook-text"> Each word has fixed meaning regardless of context. <br/> How can we understand context for each word?</h3>
             </section>
             <section data-transition="slide">
                 <h3>RNNs Sequential Context Modeling</h3>
@@ -529,8 +529,8 @@ I'm really enjoying my stay in ______."</code></pre>
             </section>
 
             <section data-transition="slide">
-                <p><strong>If transformers process in parallel, how do they know the order of words?</strong></p>
-                <p>Transformers don’t know the order of words just from embeddings. So, we add ‘positional encodings’ — special vectors that tell the model the position of each word.</p>
+                <p><strong>If transformers process in parallel, how do they know the order of words?</strong></p><br/>
+                <p>Add special "position vectors" to each word</p>
 <pre><code class="python">
 | Token  | Word vector | Positional vector| Combined Vector|
 | ------ | ----------- | ---------------- | -------------- |
@@ -542,12 +542,37 @@ I'm really enjoying my stay in ______."</code></pre>
             </section>
 
             <section data-transition="slide">
-                <h3>Why This Works</h3>
-                <ul style="width: 100%; margin: 0 auto;">
-                    <li class="fragment fade-in"><strong>Dynamic context:</strong> Each word's representation depends on the entire sequence.</li>
-                    <li class="fragment fade-in"><strong>Relationship modeling:</strong> Direct connections between any two positions.</li>
-                    <li class="fragment fade-in"><strong>Scalable learning:</strong> Attention weights are learned, not hand-crafted.</li>
-                </ul>
+                <h3>Transformer Analysis: Context Understood!</h3>
+                
+                <pre><code class="plaintext" data-trim data-noescape>
+                "I flew from London to Singapore last week. 
+                I'm really enjoying my stay in ______."
+                </code></pre>
+                </section>
+                <section data-transition="slide">
+                <p class="fragment fade-in">word "stay" pays <strong> strong attention</strong> to Singapore:</p>
+                
+                <div class="r-stack">
+                    <pre class="fragment fade-in current-only" data-fragment-index="2"><code class="yaml" data-trim data-noescape>
+                    Self-Attention Heatmap for "stay":
+                      "I":         0.05   # Subject (low relevance)
+                      "flew":      0.15   # Travel context
+                      "from":      0.10   # Direction indicator
+                      "London":    0.05   # Origin (not current location)
+                      "to":        0.20   # Direction to destination
+                      "Singapore": 0.85   # 🎯 The Destination = Current Location!
+                      "last":      0.10   # Time context
+                      "week":      0.08   # Time context
+                    </code></pre>
+                </div>
+
+                <h4 class="fragment fade-in" style="margin-top: 30px;">Result: <span style="color: #22c55e;">✅ "Singapore" (with high confidence!)</span></h4>
+            </section>
+
+            <section data-transition="slide">
+                <h3>The Attention Era</h3>
+                <p class="fragment fade-in">✅ Direct, dynamic connections between *any* words, processed in parallel.</p>
+                <p class="fragment fade-in">✅ We can now model true long-range dependencies and contextual meaning.</p>
             </section>
 
  
@@ -560,17 +585,20 @@ I'm really enjoying my stay in ______."</code></pre>
             <section data-transition="slide">
                 <h3>Transformer Architecture Challenge for Text Generation</h3>
                 <ul>
-                  <li>The original Transformer uses an <strong>encoder-decoder</strong> architecture designed for sequence-to-sequence tasks like translation.</li>
-                  <li>Encoder processes the input fully, then decoder generates output tokens—this adds complexity and latency.</li>
-                  <li>For pure text generation, this two-part design is less efficient and harder to scale.</li>
+                  <li class="fragment fade-in"><strong>Original Transformer (2017):</strong> Built for translation</li>
+                  <li class="fragment fade-in"><strong>Encoder:</strong> Understands input sentence</li>
+                  <li class="fragment fade-in"><strong>Decoder:</strong> Generates output sentence</li><br/>
+
+                  <p class="fragment fade-in">What if we just used the decoder part and made it <strong>really, really good?</strong></p>
                 </ul>
               </section>
               <section data-transition="slide">
                 <h3>GPT’s Decoder-Only Approach</h3>
+                <p><strong>The Insight:</strong> For text generation, decoder-only is enough!</p>
                 <ul>
-                  <li>GPT uses only the <strong>transformer decoder</strong> stack in an autoregressive manner.</li>
-                  <li>Self-attention is masked to prevent “seeing” future tokens, enabling efficient left-to-right text generation.</li>
-                  <li>This simplification reduces complexity, allowing models to scale massively and focus purely on text generation.</li>
+                  <li class="fragment fade-in"><strong>Simpler architecture</strong> = easier to scale</li>
+                  <li class="fragment fade-in"><strong>All compute focused</strong> on generation task</li>
+                  <li class="fragment fade-in"><strong>Masked self-attention</strong> prevents "cheating" (seeing future words)</li>
                 </ul>
               </section>              
 
